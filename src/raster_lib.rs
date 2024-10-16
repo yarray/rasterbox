@@ -1067,6 +1067,18 @@ impl RasterFile {
         Ok(())
     }
 
+    pub fn write_geotiff(&mut self) -> Result<(), Error> {
+        RasterFile::write(self, RasterType::GeoTiff)
+    }
+
+    pub fn write_arcascii(&mut self) -> Result<(), Error> {
+        RasterFile::write(self, RasterType::ArcAscii)
+    }
+
+    pub fn write_grassascii(&mut self) -> Result<(), Error> {
+        RasterFile::write(self, RasterType::GrassAscii)
+    }
+
     pub fn add_metadata_entry(&mut self, value: String) {
         self.configs.metadata.push(value);
     }
