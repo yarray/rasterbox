@@ -26,7 +26,7 @@ fn main() {
 
 ## Roadmap
 
-The library is experimental and will be continue if only I found it to have
+The library is experimental and will be continued if only I found it to have
 more potential than other pure-rust libraries such as
 [georaster](https://github.com/pka/georaster) or
 [geotiff](https://github.com/georust/geotiff).
