@@ -149,6 +149,18 @@ impl RasterFile {
         return Ok(r);
     }
 
+    pub fn read_geotiff(file_name: &str) -> Result<RasterFile, Error> {
+        RasterFile::read(file_name, RasterType::GeoTiff)
+    }
+
+    pub fn read_arcascii(file_name: &str) -> Result<RasterFile, Error> {
+        RasterFile::read(file_name, RasterType::ArcAscii)
+    }
+
+    pub fn read_grassascii(file_name: &str) -> Result<RasterFile, Error> {
+        RasterFile::read(file_name, RasterType::GrassAscii)
+    }
+
     /// Creates a new in-memory `Raster` object with grid extent and location
     /// based on specified configurations contained within a `RasterConfigs`.
     pub fn initialize_using_config<'a>(
