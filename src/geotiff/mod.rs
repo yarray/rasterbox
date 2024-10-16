@@ -1,4 +1,3 @@
-#![allow(unused_assignments, dead_code)]
 pub mod geokeys;
 pub mod ifd;
 pub mod tiff_consts;
@@ -8,6 +7,10 @@ pub mod tiff_consts;
 use crate::geotiff::geokeys::*;
 use crate::geotiff::tiff_consts::*;
 use crate::*;
+use raster_lib::DataType;
+use raster_lib::PhotometricInterpretation;
+use raster_lib::RasterFile;
+use raster_lib::RasterConfigs;
 use spatial_ref_system::esri_wkt_from_epsg;
 use structures::{Point2D, PolynomialRegression2D};
 use utils::{ByteOrderReader, ByteOrderWriter, Endianness};
@@ -20,6 +23,7 @@ use std::cmp::min;
 use std::collections::HashMap;
 use std::default::Default;
 use std::f64;
+use std::io::Seek;
 // use std::fs;
 use ifd::{Entry, Ifd};
 use std::fs::File;
@@ -1696,11 +1700,9 @@ pub fn read_geotiff<'a>(
     Ok(())
 }
 
-pub fn write_geotiff<'a>(r: &'a mut Raster) -> Result<(), Error> {
+pub fn write_geotiff<'a>(r: &'a mut RasterFile) -> Result<(), Error> {
     // We'll need to look at the configurations to see if compression should be used
-    let configs = configs::get_configs()?;
-    let use_compression = configs.compress_rasters;
-
+    let use_compression = true;  // NOTICE: we always use compression for now
     
     // get the ByteOrderWriter
     let f = File::create(r.file_name.clone())?;

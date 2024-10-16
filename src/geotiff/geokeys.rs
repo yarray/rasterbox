@@ -26,7 +26,7 @@ pub struct GeoKeys {
     geo_key_directory: Vec<u16>,
     geo_double_params: Vec<f64>,
     geo_ascii_params: String,
-    tags: Vec<TiffTag>,
+    #[allow(dead_code)] tags: Vec<TiffTag>,
 }
 
 impl GeoKeys {
@@ -2774,10 +2774,6 @@ pub struct TiffTag {
 }
 
 impl TiffTag {
-    pub fn get_name(self) -> String {
-        self.name
-    }
-
     pub fn new_unknown_tag() -> TiffTag {
         TiffTag {
             name: "Unknown".to_string(),

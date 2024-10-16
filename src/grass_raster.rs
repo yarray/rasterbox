@@ -1,4 +1,8 @@
-use super::*;
+use crate::raster_lib::DataType;
+use crate::raster_lib::PhotometricInterpretation;
+use crate::raster_lib::RasterFile;
+use crate::raster_lib::RasterConfigs;
+
 use std::f64;
 use std::fs::File;
 use std::io::prelude::*;
@@ -103,7 +107,7 @@ pub fn read_grass_raster(
     Ok(())
 }
 
-pub fn write_grass_raster<'a>(r: &'a mut Raster) -> Result<(), Error> {
+pub fn write_grass_raster<'a>(r: &'a mut RasterFile) -> Result<(), Error> {
     // Save the file
     let f = File::create(&(r.file_name))?;
     let mut writer = BufWriter::new(f);

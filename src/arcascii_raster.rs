@@ -1,4 +1,3 @@
-use super::*;
 use std::f64;
 use std::fs::File;
 use std::io::prelude::*;
@@ -6,9 +5,13 @@ use std::io::BufReader;
 use std::io::BufWriter;
 use std::io::Error;
 
+use crate::raster_lib::DataType;
+use crate::raster_lib::PhotometricInterpretation;
+use crate::raster_lib::RasterFile;
+
 pub fn read_arcascii(
     file_name: &String,
-    configs: &mut RasterConfigs,
+    configs: &mut crate::raster_lib::RasterConfigs,
     data: &mut Vec<f64>,
 ) -> Result<(), Error> {
     // read the file
@@ -115,7 +118,7 @@ pub fn read_arcascii(
     Ok(())
 }
 
-pub fn write_arcascii<'a>(r: &'a mut Raster) -> Result<(), Error> {
+pub fn write_arcascii<'a>(r: &'a mut RasterFile) -> Result<(), Error> {
     // Save the file
     let f = File::create(&(r.file_name))?;
     let mut writer = BufWriter::new(f);

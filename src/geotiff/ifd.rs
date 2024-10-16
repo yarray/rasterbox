@@ -23,12 +23,12 @@ impl Ifd {
         byte_order: Endianness,
     ) -> Ifd {
         Ifd {
-            tag: tag,
-            ifd_type: ifd_type,
-            num_values: num_values,
-            offset: offset,
-            data: data,
-            byte_order: byte_order,
+            tag,
+            ifd_type,
+            num_values,
+            offset,
+            data,
+            byte_order,
         }
     }
 
@@ -74,6 +74,7 @@ impl Ifd {
         vals
     }
 
+    #[allow(dead_code)]
     pub fn interpret_as_i64(&self) -> Vec<i64> {
         let mut bor = ByteOrderReader::<Cursor<Vec<u8>>>::new(
             Cursor::new(self.data.clone()),
@@ -120,23 +121,6 @@ impl Ifd {
             ),
         };
         return ret.trim().to_owned();
-
-        // if self.data[self.data.len() - 1] == 0 {
-        //     let s = &self.data[0..self.data.len() - 1];
-        //     let ret = match String::from_utf8(s.to_vec()) {
-        //         Ok(v) => v,
-        //         Err(e) => panic!("Error converting TAG({}) to ASCII (value={:?}) {}", self.tag, self.data.clone(), e),
-        //     };
-        //     // String::from_utf8(s.to_vec()).unwrap();
-        //     return ret
-        // } else {
-        //     let ret = match String::from_utf8(self.data.clone()) {
-        //         Ok(v) => v,
-        //         Err(e) => panic!("Error converting TAG({}) to ASCII (value={:?}) {}", self.tag, self.data.clone(), e),
-        //     };
-        //     // String::from_utf8(self.data.clone()).unwrap();
-        //     return ret
-        // }
     }
 
     pub fn interpret_data(&self) -> String {
@@ -257,38 +241,6 @@ impl fmt::Display for Ifd {
         } else {
             s = s + &format!("\nData: {}", self.interpret_data().replace("\0", ""));
         }
-        write!(f, "{}", s)
-    }
-}
-
-#[derive(Default, Clone, Debug)]
-pub(super) struct IfdEntry {
-    pub tag: u16,
-    pub ifd_type: u16,
-    pub num_values: u32,
-    pub offset: u32,
-}
-
-impl IfdEntry {
-    pub(super) fn new(tag: u16, ifd_type: u16, num_values: u32, offset: u32) -> IfdEntry {
-        IfdEntry {
-            tag,
-            ifd_type,
-            num_values,
-            offset,
-        }
-    }
-}
-
-impl fmt::Display for IfdEntry {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        let tag_map = geokeys::get_keys_map();
-        let ft_map = geokeys::get_field_type_map();
-
-        let mut s = format!("\nTag {} {}", &self.tag, tag_map[&self.tag]);
-        s = s + &format!("\nIFD_type: {} ({})", ft_map[&self.ifd_type], self.ifd_type);
-        s = s + &format!("\nNum_values: {}", self.num_values);
-        s = s + &format!("\nOffset: {}", self.offset);
         write!(f, "{}", s)
     }
 }

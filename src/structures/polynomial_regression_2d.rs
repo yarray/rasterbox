@@ -1,13 +1,15 @@
-use crate::na::{DMatrix, DVector};
+use nalgebra::{DMatrix, DVector};
 use std::f64::EPSILON;
 use std::io::Error;
 use std::io::ErrorKind;
 
 pub struct PolynomialRegression2D {
     poly_order: usize,
-    pub num_coefficients: usize,
-    pub coefficients: Vec<[f64; 2]>,
-    pub residuals: Vec<f64>,
+    #[allow(dead_code)]
+    num_coefficients: usize,
+    coefficients: Vec<[f64; 2]>,
+    #[allow(dead_code)]
+    residuals: Vec<f64>,
 }
 
 impl PolynomialRegression2D {
@@ -100,14 +102,6 @@ impl PolynomialRegression2D {
             }
         }
         (x_prime, y_prime)
-    }
-
-    pub fn get_average_residual(&self) -> f64 {
-        let mut sum = 0.0;
-        for i in 0..self.residuals.len() {
-            sum += self.residuals[i];
-        }
-        sum / self.residuals.len() as f64
     }
 }
 

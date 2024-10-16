@@ -60,31 +60,10 @@ impl<R: Read + Seek> ByteOrderReader<R> {
     pub fn len(&self) -> usize {
         self.len
     }
- 
-    pub fn is_empty(&self) -> bool {
-        if self.len() > 0 {
-            return true;
-        }
-        false
-    }
-
-    pub fn read_utf8(&mut self, length: usize) -> String {
-        let mut bytes = vec![0u8; length];
-        self.reader.read_exact(&mut bytes).unwrap();
-        let val = String::from_utf8_lossy(&bytes).to_string();
-        self.pos += length;
-        val
-    }
 
     pub fn read_u8(&mut self) -> Result<u8> {
         self.pos += 1;
         self.reader.read_u8()
-    }
-
-    pub fn peek_u8(&mut self) -> Result<u8> {
-        let val = self.reader.read_u8();
-        self.seek(self.pos);
-        val
     }
 
     pub fn read_exact(&mut self, buf: &mut [u8]) -> std::io::Result<()> {
@@ -98,14 +77,6 @@ impl<R: Read + Seek> ByteOrderReader<R> {
             return self.reader.read_u16::<LittleEndian>();
         }
         self.reader.read_u16::<BigEndian>()
-    }
-
-    pub fn read_u24(&mut self) -> Result<u32> {
-        self.pos += 3;
-        if self.is_le {
-            return self.reader.read_u24::<LittleEndian>();
-        }
-        self.reader.read_u24::<BigEndian>()
     }
 
     pub fn read_u32(&mut self) -> Result<u32> {
@@ -138,14 +109,6 @@ impl<R: Read + Seek> ByteOrderReader<R> {
         self.reader.read_i16::<BigEndian>()
     }
 
-    pub fn read_i24(&mut self) -> Result<i32> {
-        self.pos += 3;
-        if self.is_le {
-            return self.reader.read_i24::<LittleEndian>();
-        }
-        self.reader.read_i24::<BigEndian>()
-    }
-
     pub fn read_i32(&mut self) -> Result<i32> {
         self.pos += 4;
         if self.is_le {
@@ -169,21 +132,6 @@ impl<R: Read + Seek> ByteOrderReader<R> {
         }
         self.reader.read_f32::<BigEndian>()
     }
-
-    // pub fn as_f32_vec(&mut self) -> Vec<f32> {
-    //     let num_values = self.reader.len() / 4;
-    //     let mut ret: Vec<f32> = Vec::with_capacity(num_values);
-    //     if self.is_le {
-    //         for a in 0..num_values {
-    //             ret.push(LittleEndian::read_f32(&self.reader[a*4..a*4+4]));
-    //         }
-    //     } else {
-    //         for a in 0..num_values {
-    //             ret.push(BigEndian::read_f32(&self.reader[a*4..a*4+4]));
-    //         }
-    //     }
-    //     ret
-    // }
 
     pub fn read_f64(&mut self) -> Result<f64> {
         self.pos += 8;

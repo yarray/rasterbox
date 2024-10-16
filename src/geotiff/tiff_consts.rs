@@ -1,4 +1,5 @@
 // Image Modes
+#![allow(dead_code)]
 pub const IM_BILEVEL: u16 = 1u16;
 pub const IM_PALETTED: u16 = 2u16;
 pub const IM_GRAY: u16 = 3u16;
