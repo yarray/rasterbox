@@ -27,7 +27,6 @@ mod whitebox_raster;
 mod spatial_ref_system;
 mod utils;
 mod structures;
-mod rendering;
 pub mod algorithms;
 pub mod configs;
 
